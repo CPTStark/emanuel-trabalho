@@ -60,7 +60,6 @@ const animals: animalsType[] = [
   { name: "Jacutinga", numbers: "97-98-99-00" },
 ];
 
-// Configuração do gráfico
 const chartConfig = {
   count: {
     label: "Quantidade de Números",
@@ -68,7 +67,6 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-// Componente do Gráfico
 function Grafic({ type }: { type: string }) {
 
   const colors: string[] = [
@@ -103,7 +101,7 @@ function Grafic({ type }: { type: string }) {
     return {
       name: animal.name,
       count,
-      probability: probability * 100, // Converter para porcentagem
+      probability: probability * 100,
       color: colors[index % colors.length]
     };
   });
@@ -140,7 +138,7 @@ function Grafic({ type }: { type: string }) {
               return (
                 <rect
                   {...props}
-                  fill={color as string} // Garantir que 'color' seja tratado como string
+                  fill={color as string}
                 />
               );
             }}
@@ -160,9 +158,8 @@ function Grafic({ type }: { type: string }) {
   );
 }
 
-// Componente principal
 function App() {
-  const [type, setType] = useState("grupo"); // Estado para o tipo de aposta
+  const [type, setType] = useState("grupo");
 
   return (
     <div className="w-screen h-screen">
