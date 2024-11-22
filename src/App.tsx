@@ -1,6 +1,3 @@
-"use client";
-
-import { BarProps } from 'recharts';
 import { useState } from "react";
 import {
   Select,
@@ -27,12 +24,18 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-interface animalsType {
+interface Animal {
   name: string;
   numbers: string;
 }
 
-const animals: animalsType[] = [
+interface ChartData {
+  name: string;
+  count: number;
+  probability: number;
+}
+
+const animals: Animal[] = [
   { name: "Avestruz", numbers: "01-02-03-04" },
   { name: "Águia", numbers: "05-06-07-08" },
   { name: "Burro", numbers: "09-10-11-12" },
@@ -68,16 +71,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 function Grafic({ type }: { type: string }) {
-
-  const colors: string[] = [
-    "#FF5733", "#33FF57", "#3357FF", "#FF33A8", "#FFC733", "#33FFF7",
-    "#A833FF", "#FF8C33", "#FF3333", "#33FF9C", "#9C33FF", "#FF5733",
-    "#57FF33", "#3357FF", "#FF33A8", "#FFC733", "#33FFF7", "#A833FF",
-    "#FF8C33", "#FF3333", "#33FF9C", "#9C33FF", "#5733FF", "#8CFF33",
-    "#FF5733",
-  ];
-
-  const chartData = animals.map((animal, index) => {
+  const chartData: ChartData[] = animals.map((animal) => {
     const count = animal.numbers.split("-").length;
     let probability = 0;
 
@@ -102,7 +96,6 @@ function Grafic({ type }: { type: string }) {
       name: animal.name,
       count,
       probability: probability * 100,
-      color: colors[index % colors.length]
     };
   });
 
@@ -128,21 +121,11 @@ function Grafic({ type }: { type: string }) {
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-           <Bar
-            dataKey="probability"
-            radius={8}
-            shape={(props: BarProps) => {
-              const { index } = props;
-              const animalIndex = index !== undefined ? Number(index) : 0;
-              const color = chartData[animalIndex].color;
-              return (
-                <rect
-                  {...props}
-                  fill={color as string}
-                />
-              );
-            }}
-          />
+            <Bar
+              dataKey="probability"
+              radius={8}
+              fill="blue"
+            />
           </BarChart>
         </ChartContainer>
       </CardContent>
@@ -167,7 +150,7 @@ function App() {
         <h1 className="text-3xl font-bold">Probabilidades do Jogo do Bicho</h1>
       </div>
       <div className="flex justify-center items-center flex-col gap-4">
-        <p className="text-gray-500">Selecione o tipo de aposta</p>
+        <p className="text-gray-500 text-xl">Selecione o tipo de aposta</p>
         <Select onValueChange={(value) => setType(value)}>
           <SelectTrigger className="w-40">
             <SelectValue placeholder="Aposta" />
